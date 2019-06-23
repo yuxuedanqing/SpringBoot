@@ -50,6 +50,7 @@ public class ShiroConfig {
 		 * 放行该请求
 		 */
 		linkedHashMap.put("/testThymeleaf", "anon");
+		linkedHashMap.put("/login", "anon");
 		/**
 		 * 使请求某路径下的所有资源都用统一过滤
 		 */

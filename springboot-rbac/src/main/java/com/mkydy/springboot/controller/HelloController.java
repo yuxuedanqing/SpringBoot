@@ -1,5 +1,7 @@
 package com.mkydy.springboot.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +58,11 @@ public class HelloController {
 	}
 	
 	@GetMapping(value="/toLogin")
-	public String login() {
+	public String login(HttpServletRequest req) {
+		String name = "haha";
+		String msg=(String) req.getSession().getAttribute("msg");
+		System.out.println(name);
+		System.out.println("美术馆：" + msg);
 		return "login";
 	}
 	
