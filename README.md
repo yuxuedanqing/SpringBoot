@@ -10,7 +10,7 @@ Spring Boot 学习入门
 
 ## 学习计划
 
-- [ ] [`Start-Spring-Boot`](https://github.com/yuxuedanqing/SpringBoot/Start-Spring-Boot)
+- [x] [`Start-Spring-Boot`](https://github.com/yuxuedanqing/SpringBoot/Start-Spring-Boot)
 - [ ] [`Spring-Boot-Config`](https://github.com/yuxuedanqing/SpringBoot/Spring-Boot-Config)
 - [ ] [`Spring-Boot-Mybatis`](https://github.com/yuxuedanqing/SpringBoot/Spring-Boot-Config)
 - [ ] [`Spring-Boot-JdbcTemplate`](https://github.com/yuxuedanqing/SpringBoot/Spring-Boot-JdbcTemplate)
