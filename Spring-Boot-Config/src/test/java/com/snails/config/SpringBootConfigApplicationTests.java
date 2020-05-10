@@ -1,10 +1,10 @@
-package com.snails.mkydy;
+package com.snails.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MkydyApplicationTests {
+class SpringBootConfigApplicationTests {
 
     @Test
     void contextLoads() {
