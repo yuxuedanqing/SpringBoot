@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <table>
+        <tr>
+            <th>no</th>
+            <th>account</th>
+            <th>name</th>
+            <th>password</th>
+            <th>accountType</th>
+            <th>tel</th>
+        </tr>
+        <tr th:each="list : ${account}">
+            <td th:text="${{listStat.index+1}}">1</td>
+            <td th:text="${{list.account}}">2</td>
+            <td th:text="${{list.name}}">3</td>
+            <td th:text="${{list.password}}">4</td>
+            <td th:text="${{list.accountType}}">5</td>
+            <td th:text="${{list.tel}}">6</td>
+        </tr>
+    </table>
+</body>
+</html>
