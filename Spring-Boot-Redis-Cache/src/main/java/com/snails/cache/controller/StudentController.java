@@ -42,4 +42,9 @@ public class StudentController {
         studentService.deleteByNo(no);
         return "delete success";
     }
+
+    @RequestMapping("/deleteAllCache")
+    public void deleteAllCache(){
+        studentService.deleteAllCache();
+    }
 }

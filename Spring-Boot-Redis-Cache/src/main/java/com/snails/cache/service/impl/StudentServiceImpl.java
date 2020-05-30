@@ -46,7 +46,7 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.queryStudentListMap();
     }
 
-    @Cacheable(key = "#no")
+    @Cacheable(cacheNames = {"student"}, key = "#no")
     @Override
     public Student queryStudentByNo(String no) {
         System.out.println("缓存不存在，执行方法");
