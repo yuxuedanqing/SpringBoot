@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/layui/2.5.6/css/layui.css}">
+</head>
+<body>
+
+<script th:src="@{/webjars/jquery/3.5.1/jquery.js}" rel="stylesheet"></script>
+<script th:src="@{/webjars/layui/2.5.6/layui.js}" rel="stylesheet"></script>
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer
+            ,form = layui.form;
+
+        layer.msg('Hello World');
+    });
+</script>
+</body>
+</html>

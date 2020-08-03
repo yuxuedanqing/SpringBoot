@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.snails.layui.entity.Student">
+
+    <resultMap id="studentMap" type="com.snails.layui.entity.Student" >
+        <id column="stu_id" property="id" jdbcType="INTEGER" />
+        <result column="stu_name" property="name" jdbcType="VARCHAR" />
+        <result column="stu_gender" property="gender" jdbcType="VARCHAR" />
+        <result column="stu_birthday" property="birthday" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="studentFields">
+        stu_id,
+        stu_name,
+        stu_gender,
+        stu_birthday
+    </sql>
+
+    <select id="getAllStudent" resultType="student">
+        select
+        <include refid="studentFields"/>
+        from student
+    </select>
+
+    <select id="findStudentById" resultMap="student">
+        select
+        <include refid="studentFields"/>
+        from sttudent
+        where stu_id = #{id}
+    </select>
+
+    <update id="updateStudent" parameterType="INTEGER">
+        update student
+        <set>
+            <if test="name !=null and name != ''">
+                stu_name = #{name},
+            </if>
+            <if test="gender != null and gender != ''">
+                stu_gender = #{gender}
+            </if>
+            <if test="birthday !=null">
+                stu_birthday = #{birthday}
+            </if>
+        </set>
+    </update>
+
+    <insert id="addStudent" parameterType="student">
+        insert into student(stu_name,stu_gender,stu_birthday) values(#{name},#{gender},#{birthday})
+    </insert>
+
+    <delete id="deleteStudent" parameterType="INTEGER">
+        delete from student where stu_id = #{id}
+    </delete>
+</mapper>
