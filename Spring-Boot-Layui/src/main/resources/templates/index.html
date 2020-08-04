@@ -7,15 +7,68 @@
 </head>
 <body>
 
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-btn-container">
+            <button type="button" class="layui-btn" id="addStudent">添加学生</button>
+            <button type="button" class="layui-btn">修改学生</button>
+            <button type="button" class="layui-btn">删除学生</button>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md6">
+            <table id="demo" lay-filter="test"></table>
+        </div>
+
+    </div>
+</div>
+
 <script th:src="@{/webjars/jquery/3.5.1/jquery.js}" rel="stylesheet"></script>
 <script th:src="@{/webjars/layui/2.5.6/layui.js}" rel="stylesheet"></script>
 <script>
-    //一般直接写在一个js文件中
-    layui.use(['layer', 'form'], function(){
-        var layer = layui.layer
-            ,form = layui.form;
+    layui.use(['layer', 'form', 'table'], function(){
+        const layer = layui.layer
+            , form = layui.form
+            ,table = layui.table;
+        let tableObj = table.render({
+            elem: '#demo'
+            ,height: 500
+            ,url: '/student/getAllStudent' //数据接口
+            ,page: true //开启分页
+            ,cols: [    //表头
+                [
+                    {field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
+                    ,{field: 'name', title: '姓名', width:120}
+                    ,{field: 'gender', title: '性别', width:80, sort: true}
+                    ,{field: 'birthday', title: '出生日期', width:150}
+                ]
+            ]
+            ,parseData: function(res){
+                console.log(res);
+                return {
+                    "code": res.status, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.list //解析数据列表
+                };
+            }
+            ,request: {
+                pageName: 'pageNum' //页码的参数名称，默认：page
+                ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,response: {
+                statusCode: 200
+            }
 
-        layer.msg('Hello World');
+        });
+
+        $("#addStudent").click(function(){
+            $.get('/student/addStudent',function (data) {
+                if (data.status===200){
+                    console.log(data);
+                }
+            });
+        });
     });
 </script>
 </body>

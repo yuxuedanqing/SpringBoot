@@ -1,5 +1,7 @@
 package com.snails.layui.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.snails.layui.entity.Student;
 import com.snails.layui.mapper.StudentInfoMapper;
 import com.snails.layui.util.JsonResult;
@@ -19,9 +21,11 @@ public class StudentInfoController {
 
     @GetMapping("/getAllStudent")
     @ResponseBody
-    public JsonResult getAllStudent(){
+    public JsonResult getAllStudent(Integer pageNum,Integer pageSize){
+        PageHelper.startPage(pageNum, pageSize);
         List<Student> studentList = studentInfoMapper.getAllStudent();
-        return JsonResult.ok(studentList);
+        PageInfo<Student> studentPageInfo = new PageInfo<>(studentList);
+        return JsonResult.ok(studentPageInfo);
     }
 
     @GetMapping("/findStudentById")

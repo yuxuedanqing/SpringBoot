@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.snails.layui.entity.Student">
+<mapper namespace="com.snails.layui.mapper.StudentInfoMapper">
 
-    <resultMap id="studentMap" type="com.snails.layui.entity.Student" >
+    <resultMap id="studentMap" type="student" >
         <id column="stu_id" property="id" jdbcType="INTEGER" />
         <result column="stu_name" property="name" jdbcType="VARCHAR" />
         <result column="stu_gender" property="gender" jdbcType="VARCHAR" />
@@ -18,13 +18,13 @@
         stu_birthday
     </sql>
 
-    <select id="getAllStudent" resultType="student">
+    <select id="getAllStudent" resultMap="studentMap">
         select
         <include refid="studentFields"/>
         from student
     </select>
 
-    <select id="findStudentById" resultMap="student">
+    <select id="findStudentById" resultType="student">
         select
         <include refid="studentFields"/>
         from sttudent
