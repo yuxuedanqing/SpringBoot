@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -35,18 +34,13 @@ public class StudentInfoController {
         return JsonResult.ok(student);
     }
 
-    @GetMapping("/addStudent")
+    @PostMapping("/addStudent")
     @ResponseBody
-    public JsonResult addStudent() throws Exception{
-        for (int i=0;i<50;i++){
-            Student student = new Student();
-            student.setName("张三"+i);
-            student.setBirthday(LocalDate.now());
-            student.setGender("男");
-            studentInfoMapper.addStudent(student);
-        }
+    public JsonResult addStudent(@RequestBody Student student) throws Exception{
+        studentInfoMapper.addStudent(student);
         return JsonResult.ok();
     }
+
 
     @PostMapping("/updateStudent")
     @ResponseBody

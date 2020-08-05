@@ -9,42 +9,86 @@
 
 <div class="layui-container">
     <div class="layui-row">
-        <div class="layui-btn-container">
-            <button type="button" class="layui-btn" id="addStudent">添加学生</button>
-            <button type="button" class="layui-btn">修改学生</button>
-            <button type="button" class="layui-btn">删除学生</button>
-        </div>
-    </div>
-    <div class="layui-row">
-        <div class="layui-col-md6">
-            <table id="demo" lay-filter="test"></table>
+        <div class="layui-col-md8">
+            <table id="demo" lay-filter="studentTable"></table>
         </div>
 
     </div>
 </div>
 
-<script th:src="@{/webjars/jquery/3.5.1/jquery.js}" rel="stylesheet"></script>
+<!-- 添加学生 -->
+<div id="layuiAddStudent" style="display: none">
+    <div class="layui-row" id="addStudentOpen">
+        <div class="layui-col-md12">
+            <form class="layui-form" action="/student/addStudent" method="post">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="gender" value="男" title="男" checked>
+                        <input type="radio" name="gender" value="女" title="女">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">出生日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="birthday" id="birthday" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/html" id="topBar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+        <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+    </div>
+</script>
+
+<script type="text/html" id="rightBar">
+    <a class="layui-btn layui-btn-xs" lay-event="view">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script th:src="@{/webjars/layui/2.5.6/layui.js}" rel="stylesheet"></script>
 <script>
-    layui.use(['layer', 'form', 'table'], function(){
+    layui.use(['layer', 'form', 'laydate', 'table'], function(){
         const layer = layui.layer
             , form = layui.form
-            ,table = layui.table;
+            , laydate = layui.laydate
+            , table = layui.table
+            , $ = layui.jquery;
         let tableObj = table.render({
             elem: '#demo'
+            ,toolbar : '#topBar'
             ,height: 500
             ,url: '/student/getAllStudent' //数据接口
             ,page: true //开启分页
             ,cols: [    //表头
                 [
-                    {field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
-                    ,{field: 'name', title: '姓名', width:120}
-                    ,{field: 'gender', title: '性别', width:80, sort: true}
-                    ,{field: 'birthday', title: '出生日期', width:150}
+                    {type:'checkbox', fixed: 'left'}
+                    ,{field: 'id', title: 'ID', align: 'center', sort: true, fixed: 'left'}
+                    ,{field: 'name', title: '姓名', align: 'center'}
+                    ,{field: 'gender', title: '性别', align: 'center'}
+                    ,{field: 'birthday', title: '出生日期', align: 'center'}
+                    ,{fixed: 'right', title:'操作', toolbar: '#rightBar', width:200}
                 ]
             ]
             ,parseData: function(res){
-                console.log(res);
                 return {
                     "code": res.status, //解析接口状态
                     "msg": res.msg, //解析提示文本
@@ -61,14 +105,43 @@
             }
 
         });
+        //监听事件
+        table.on('toolbar(studentTable)', function(obj){
+            let checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'add':
+                    addStudent();
+                    break;
+                case 'delete':
+                    layer.msg('删除');
+                    break;
 
-        $("#addStudent").click(function(){
-            $.get('/student/addStudent',function (data) {
-                if (data.status===200){
-                    console.log(data);
-                }
-            });
+            };
         });
+
+        laydate.render({
+            elem: '#birthday' //指定元素
+        });
+
+        function addStudent() {
+            layer.open({
+                type : 1,
+                title : '添加',
+                content : $("#layuiAddStudent"),
+                maxmin : true,
+                area : ['760px', '500px'],
+                id : 'addStudentOpenLayer'
+            });
+            $("#addStudentOpenLayer").css("margin-top","20px");
+            $("#addStudentOpenLayer").css("margin-bottom","-20px");
+            form.render();
+        }
+
+        form.on('submit(formDemo)', function(data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+
     });
 </script>
 </body>
